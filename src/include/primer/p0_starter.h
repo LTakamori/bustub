@@ -117,9 +117,9 @@ class RowMatrix : public Matrix<T> {
    * @param cols The number of columns
    */
   RowMatrix(int rows, int cols) : Matrix<T>(rows, cols) {
-    data_ = new int*[rows_];
-    for (int i = 0; i < rows_; i++) {
-      data_[i] = linear_ + i * cols_;
+    data_ = new int*[this->rows_];
+    for (int i = 0; i < this->rows_; i++) {
+      data_[i] = this->linear_ + i * this->cols_;
     }
   }
 
@@ -128,7 +128,7 @@ class RowMatrix : public Matrix<T> {
    * @return The number of rows in the matrix
    */
   int GetRowCount() const override {
-    return rows_;
+    return this->rows_;
   }
 
   /**
@@ -136,7 +136,7 @@ class RowMatrix : public Matrix<T> {
    * @return The number of columns in the matrix
    */
   int GetColumnCount() const override {
-    return cols_;
+    return this->cols_;
   }
 
   /**
@@ -152,7 +152,7 @@ class RowMatrix : public Matrix<T> {
    * @throws OUT_OF_RANGE if either index is out of range
    */
   T GetElement(int i, int j) const override {
-    if (i >= rows_ || j >= cols_) {
+    if (i >= this->rows_ || j >= this->cols_) {
       throw Exception(ExceptionType::OUT_OF_RANGE, "Index out of matrix range.");
     }
     return data_[i][j];
@@ -169,7 +169,7 @@ class RowMatrix : public Matrix<T> {
    * @throws OUT_OF_RANGE if either index is out of range
    */
   void SetElement(int i, int j, T val) override {
-    if (i >= rows_ || j >= cols_) {
+    if (i >= this->rows_ || j >= this->cols_) {
       throw Exception(ExceptionType::OUT_OF_RANGE, "Index out of matrix range.");
     }
     data_[i][j] = val;
@@ -187,11 +187,11 @@ class RowMatrix : public Matrix<T> {
    * @throws OUT_OF_RANGE if `source` is incorrect size
    */
   void FillFrom(const std::vector<T> &source) override {
-    if (source.size() != rows_ * cols_) {
+    if (source.size() != this->rows_ * this->cols_) {
       throw Exception(ExceptionType::OUT_OF_RANGE, "Incorrect size of source.");
     }
     for (int i = 0; i < source.size(); i++) {
-      linear_[i] = source[i];
+      this->linear_[i] = source[i];
     }
   }
 
@@ -201,8 +201,8 @@ class RowMatrix : public Matrix<T> {
    * Destroy a RowMatrix instance.
    */
   ~RowMatrix() override {
-    delete linear_;
-    delete data_;
+    delete this->linear_;
+    delete this->data_;
   }
 
  private:
