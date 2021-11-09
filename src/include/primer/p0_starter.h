@@ -152,7 +152,7 @@ class RowMatrix : public Matrix<T> {
    * @throws OUT_OF_RANGE if either index is out of range
    */
   T GetElement(int i, int j) const override {
-    if (i >= this->rows_ || j >= this->cols_) {
+    if (i >= this->rows_ || j >= this->cols_ || i < 0 || j < 0) {
       throw Exception(ExceptionType::OUT_OF_RANGE, "Index out of matrix range.");
     }
     return data_[i][j];
@@ -169,7 +169,7 @@ class RowMatrix : public Matrix<T> {
    * @throws OUT_OF_RANGE if either index is out of range
    */
   void SetElement(int i, int j, T val) override {
-    if (i >= this->rows_ || j >= this->cols_) {
+    if (i >= this->rows_ || j >= this->cols_ || i < 0 || j < 0) {
       throw Exception(ExceptionType::OUT_OF_RANGE, "Index out of matrix range.");
     }
     data_[i][j] = val;
@@ -187,10 +187,10 @@ class RowMatrix : public Matrix<T> {
    * @throws OUT_OF_RANGE if `source` is incorrect size
    */
   void FillFrom(const std::vector<T> &source) override {
-    if (source.size() != this->rows_ * this->cols_) {
+    if (static_cast<int>(source.size()) != this->rows_ * this->cols_) {
       throw Exception(ExceptionType::OUT_OF_RANGE, "Incorrect size of source.");
     }
-    for (int i = 0; i < source.size(); i++) {
+    for (int i = 0; i < static_cast<int>(source.size()); i++) {
       this->linear_[i] = source[i];
     }
   }
