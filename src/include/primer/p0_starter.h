@@ -117,7 +117,7 @@ class RowMatrix : public Matrix<T> {
    * @param cols The number of columns
    */
   RowMatrix(int rows, int cols) : Matrix<T>(rows, cols) {
-    data_ = new int*[this->rows_];
+    data_ = new int *[this->rows_];
     for (int i = 0; i < this->rows_; i++) {
       data_[i] = this->linear_ + i * this->cols_;
     }
@@ -127,17 +127,13 @@ class RowMatrix : public Matrix<T> {
    * TODO(P0): Add implementation
    * @return The number of rows in the matrix
    */
-  int GetRowCount() const override {
-    return this->rows_;
-  }
+  int GetRowCount() const override { return this->rows_; }
 
   /**
    * TODO(P0): Add implementation
    * @return The number of columns in the matrix
    */
-  int GetColumnCount() const override {
-    return this->cols_;
-  }
+  int GetColumnCount() const override { return this->cols_; }
 
   /**
    * TODO(P0): Add implementation
@@ -233,10 +229,12 @@ class RowMatrixOperations {
    */
   static std::unique_ptr<RowMatrix<T>> Add(const RowMatrix<T> *matrixA, const RowMatrix<T> *matrixB) {
     // TODO(P0): Add implementation
-    if (matrixA == nullptr || matrixB == nullptr || matrixA->GetColumnCount() != matrixB->GetColumnCount() || matrixB->GetRowCount() != matrixA->GetRowCount()) {
+    if (matrixA == nullptr || matrixB == nullptr || matrixA->GetColumnCount() != matrixB->GetColumnCount() ||
+        matrixB->GetRowCount() != matrixA->GetRowCount()) {
       return std::unique_ptr<RowMatrix<T>>(nullptr);
     }
-    std::unique_ptr<RowMatrix<T>> matrix_ret = std::unique_ptr<RowMatrix<T>>(new RowMatrix<T>(matrixA->GetRowCount(), matrixA->GetColumnCount()));
+    std::unique_ptr<RowMatrix<T>> matrix_ret =
+        std::unique_ptr<RowMatrix<T>>(new RowMatrix<T>(matrixA->GetRowCount(), matrixA->GetColumnCount()));
     for (int i = 0; i < matrixA->GetRowCount(); i++) {
       for (int j = 0; j < matrixA->GetColumnCount(); j++) {
         matrix_ret->SetElement(i, j, matrixA->GetElement(i, j) + matrixB->GetElement(i, j));
@@ -257,7 +255,8 @@ class RowMatrixOperations {
     if (matrixA == nullptr || matrixB == nullptr || matrixA->GetColumnCount() != matrixB->GetRowCount()) {
       return std::unique_ptr<RowMatrix<T>>(nullptr);
     }
-    std::unique_ptr<RowMatrix<T>> matrix_ret = std::unique_ptr<RowMatrix<T>>(new RowMatrix<T>(matrixA->GetRowCount(), matrixB->GetColumnCount()));
+    std::unique_ptr<RowMatrix<T>> matrix_ret =
+        std::unique_ptr<RowMatrix<T>>(new RowMatrix<T>(matrixA->GetRowCount(), matrixB->GetColumnCount()));
     int row_a = matrixA->GetRowCount();
     int col_b = matrixB->GetColumnCount();
     int n = matrixA->GetColumnCount();
@@ -272,7 +271,8 @@ class RowMatrixOperations {
     for (int i = 0; i < row_a; i++) {
       for (int j = 0; j < col_b; j++) {
         for (int k = 0; k < n; k++) {
-          matrix_ret->SetElement(i, j, matrix_ret->GetElement(i, j) + matrixA->GetElement(i, k) * matrixB->GetElement(k, j));
+          matrix_ret->SetElement(i, j,
+                                 matrix_ret->GetElement(i, j) + matrixA->GetElement(i, k) * matrixB->GetElement(k, j));
         }
       }
     }
